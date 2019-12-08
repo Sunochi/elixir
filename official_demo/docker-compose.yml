@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - '4000:4000'
+    command: iex -S mix phx.server
+    environment:
+      - MIX_ENV=dev
+      - PORT=4000
+    volumes:
+      - ./proj:/proj
+
+  db:
+    image: postgres:10.10
+    container_name: postgres_host
+    environment:
+      - TZ=Asia/Tokyo
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_HOST=db
+      - IMPORT_FROM_DIR=/data
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db/sh:/docker-entrypoint-initdb.d
+      - ./db/data:/data
+      - ./db/storage:/var/lib/postgresql/data
