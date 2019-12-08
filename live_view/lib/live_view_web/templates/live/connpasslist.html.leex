@@ -1,0 +1,40 @@
+<h2>日付とキーワードを入力してください。</h2>
+
+<p>
+<%= if @message do %><%= @message %><% end %>
+</p>
+
+<form phx-submit="submit">
+Date(yyyymmdd):
+<input type="text" name="query" value="<%= @query %>"
+    placeholder="20191207" />
+Keyword:
+<input type="text" name="keyword" value="<%= @keyword %>"
+     placeholder="Elixir" />
+<br>
+Date: <%= @query %> |
+Keyword: <%= @keyword %> |
+全<%= @maxcnt %>件 <br>
+<input type="submit" name="search" onclick="blur()" />
+</form>
+
+<table>
+<tr>
+    <th>イベントID</th>
+    <th>タイトル</th>
+    <th>定員</th>
+    <th>イベント開催日時</th>
+</tr>
+<%= for result <- @results do %>
+<tr>
+    <td>
+        <a href="<%= result["event_url"] %>" target=_blank>
+        <%= result["event_id"] %>
+        </a>
+    </td>
+    <td><%= result["title"] %></td>
+    <td><%= result["limit"] %></td>
+    <td><%= result["started_at"] %></td>
+</tr>
+<% end %>
+</table>
